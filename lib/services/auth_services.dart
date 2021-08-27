@@ -4,6 +4,8 @@ class AuthService {
   // create firebase instance
   final FirebaseAuth auth = FirebaseAuth.instance;
 
+  
+
   // Register with eamil and password
   static Future<User?> registerUsingEmailPassword({
     required String name,

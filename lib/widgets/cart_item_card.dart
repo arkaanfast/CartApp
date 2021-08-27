@@ -32,14 +32,6 @@ class _CartItemCardState extends State<CartItemCard> {
         setState(() {
           _isExpanded = !_isExpanded;
         });
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (context) => CartDetailsScreen(
-        //               itemName: this.itemList.name,
-        //               itemDescription: this.itemList.itemDescription,
-        //               itemImageUrl: this.itemList.imageUrl,
-        //             )));
       },
       child: this.widget.isInCart
           ? Dismissible(
