@@ -12,6 +12,7 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   bool _isProcessing = false;
+  bool _isError = false;
   GlobalKey<FormState> _registerForm = new GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _userNameController = TextEditingController();
@@ -48,8 +49,17 @@ class _RegisterState extends State<Register> {
                 height: 68,
                 child: TextFormField(
                   controller: _emailController,
-                  validator: (email) =>
-                      email!.length == 0 ? "please enter" : null,
+                  validator: (email) {
+                    if (email!.isEmpty) {
+                      return "Please Enter a valid email";
+                    } else if (!RegExp(
+                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                        .hasMatch(email)) {
+                      return "Enter valid email id";
+                    }
+
+                    return null;
+                  },
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey),
@@ -103,11 +113,11 @@ class _RegisterState extends State<Register> {
                   ? CircularProgressIndicator()
                   : GestureDetector(
                       onTap: () async {
-                        setState(() {
-                          _isProcessing = true;
-                        });
-
                         if (_registerForm.currentState!.validate()) {
+                          setState(() {
+                            _isProcessing = true;
+                          });
+
                           User? user =
                               await AuthService.registerUsingEmailPassword(
                             name: _userNameController.text,
@@ -126,6 +136,11 @@ class _RegisterState extends State<Register> {
                                     builder: (context) =>
                                         CartScreen(user: user)),
                                 ModalRoute.withName("/Cart"));
+                          } else {
+                            setState(() {
+                              _isProcessing = false;
+                              _isError = true;
+                            });
                           }
                         }
                       },
@@ -144,6 +159,12 @@ class _RegisterState extends State<Register> {
                         ),
                       ),
                     ),
+              _isError
+                  ? Container(
+                      child: Text("Some Problem Occured",
+                          style: TextStyle(color: Colors.red)))
+                  : Container(),
+              _isError ? SizedBox(height: 20.0) : Container(),
             ],
           ),
         )));
