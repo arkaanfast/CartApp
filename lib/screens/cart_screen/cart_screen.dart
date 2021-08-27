@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cart_app/models/cart_category_model.dart';
-import 'package:cart_app/user_cart/user_cart.dart';
+import 'package:cart_app/screens/user_cart/user_cart.dart';
 import 'package:cart_app/widgets/cart_item_card.dart';
 import 'package:cart_app/widgets/logout_diaogue.dart';
 import 'package:firebase_auth/firebase_auth.dart';
